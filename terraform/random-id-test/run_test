@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+export TF_VAR_how_many=1000
+export TF_VAR_bucket_size=5
+export TF_VAR_byte_length=2
+
+terraform init
+terraform apply --auto-approve | grep 'x=' | sort | uniq -c | while read count bucket
+do
+  echo $bucket occured $count times for $(( $count * 100 / $TF_VAR_how_many))%
+done
